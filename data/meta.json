@@ -1,0 +1,27 @@
+{
+ "updated": "2026-10-04",
+ "files": {
+  "1": [
+   "roads_t1.geojson"
+  ],
+  "2": [
+   "roads_t2.geojson"
+  ],
+  "3": [
+   "roads_unclassified.geojson",
+   "roads_residential.geojson",
+   "roads_track.geojson",
+   "roads_service.geojson",
+   "roads_path.geojson"
+  ]
+ },
+ "counts": {
+  "roads_t1": 886,
+  "roads_t2": 1633,
+  "roads_unclassified": 14059,
+  "roads_residential": 20851,
+  "roads_track": 17928,
+  "roads_service": 2178,
+  "roads_path": 52773
+ }
+}
