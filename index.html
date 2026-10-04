@@ -46,27 +46,32 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--b);outline-offs
 .maplibregl-ctrl-scale{background:transparent!important;color:var(--ink)!important;border-color:var(--ink)!important}.maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--paper) 75%,transparent)!important;color:var(--ink)!important}.maplibregl-ctrl-attrib a{color:var(--ink)!important}
 .lg{background:color-mix(in srgb,var(--paper) 72%,transparent)!important;border:1px solid var(--ln);padding:6px 9px;font-size:11px;line-height:1.6;pointer-events:none;margin:0 10px 4px 0!important;color:var(--ink)}.lg div{display:flex;align-items:center;gap:7px;white-space:nowrap}.lg i{display:block;width:16px;height:0;border-top:var(--h,3px) var(--bs,solid) var(--c)}
 .r{display:flex;align-items:center;gap:16px}.li{display:inline-flex;align-items:center;gap:6px;color:var(--ink);text-decoration:none;font-weight:600;font-size:12px}.li svg{width:14px;height:14px;fill:currentColor}.li:hover{text-decoration:underline}#tm{padding:5px 10px;font-size:12px}.ft{font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;gap:8px}.ft a{color:var(--mut)}.ft .li{color:var(--ink)}
+.langseg{display:flex;border:1px solid var(--ln);background:color-mix(in srgb,var(--paper) 88%,transparent)}
+.langseg button{border:0;border-radius:0;padding:3px 7px;font-size:10.5px;font-weight:700;letter-spacing:.05em;line-height:1.35;background:transparent;color:var(--mut);cursor:pointer}
+.langseg button+button{border-left:1px solid var(--ln)}
+.langseg button:hover{background:transparent;color:var(--ink)}
+.langseg button[aria-pressed=true],.langseg button[aria-pressed=true]:hover{background:var(--b);border-color:var(--b);color:#fff}
 #tg{display:none}
-@media(max-width:760px){#wrap{flex-direction:column-reverse}aside{width:100%;height:46%;border-right:0;border-top:1px solid var(--ln)}#top span{display:none}#status{left:8px;bottom:8px;min-width:0}}
+@media(max-width:760px){#wrap{flex-direction:column-reverse}aside{width:100%;height:46%;border-right:0;border-top:1px solid var(--ln)}#top span{display:none}#status{left:8px;bottom:8px;min-width:0}.r{gap:10px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
-<div id="top"><b><span class="mark"><i></i><i></i><i></i></span>Roads of Sierra Leone</b><div class="r"><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener" aria-label="Daniil M. on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a><button id="tm">Dark mode</button></div></div>
+<div id="top"><b><span class="mark"><i></i><i></i><i></i></span><span data-i18n="title">Roads of Sierra Leone</span></b><div class="r"><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener" aria-label="Daniil M. on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a><div class="langseg" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="false">EN</button><button type="button" data-lang="kri" aria-pressed="false">KRI</button></div><button id="tm">Dark mode</button></div></div>
 <div id="wrap">
 <aside>
- <section><h1>Sierra Leone,<br>road by road</h1><p>The national road network from OpenStreetMap. Main roads (tertiary and above) load on arrival; local roads load on request.</p></section>
- <div class="kpi"><div><b id="kN">–</b><span>segments</span></div><div><b id="kK">–</b><span>km</span></div><div><b id="kU">–</b><span>% unpaved</span></div></div>
- <section><h2>Map layer</h2>
-  <label class="opt"><input type="checkbox" data-th="speed"><b>Speed limits</b><small>Legal limit of every road, labelled on the map. Grey = no limit tagged.</small></label>
-  <label class="opt"><input type="checkbox" data-th="lit"><b>Street lighting</b><small>Lit, unlit, or not tagged.</small></label>
-  <label class="opt"><input type="checkbox" data-th="surface"><b>Surface</b><small>Paved or unpaved.</small></label>
-  <label class="opt"><input type="checkbox" data-th="grade"><b>Track grade</b><small>Tracks classified by firmness, grade 1 (solid) to 5 (soft). Other roads in grey.</small></label>
+ <section><h1 data-i18n-html="h1">Sierra Leone,<br>road by road</h1><p data-i18n="intro">The national road network from OpenStreetMap. Main roads (tertiary and above) load on arrival; local roads load on request.</p></section>
+ <div class="kpi"><div><b id="kN">–</b><span data-i18n="segments">segments</span></div><div><b id="kK">–</b><span data-i18n="km">km</span></div><div><b id="kU">–</b><span data-i18n="unpaved">% unpaved</span></div></div>
+ <section><h2 data-i18n="mapLayer">Map layer</h2>
+  <label class="opt"><input type="checkbox" data-th="speed"><b data-i18n="speedLimits">Speed limits</b><small data-i18n="speedLimitsHint">Legal limit of every road, labelled on the map. Grey = no limit tagged.</small></label>
+  <label class="opt"><input type="checkbox" data-th="lit"><b data-i18n="lighting">Street lighting</b><small data-i18n="lightingHint">Lit, unlit, or not tagged.</small></label>
+  <label class="opt"><input type="checkbox" data-th="surface"><b data-i18n="surface">Surface</b><small data-i18n="surfaceHint">Paved or unpaved.</small></label>
+  <label class="opt"><input type="checkbox" data-th="grade"><b data-i18n="grade">Track grade</b><small data-i18n="gradeHint">Tracks classified by firmness, grade 1 (solid) to 5 (soft). Other roads in grey.</small></label>
   <div id="leg" style="margin-top:12px"></div></section>
- <section><h2>Overlay</h2><label class="opt"><input type="checkbox" id="rl"><b>Railway</b><small>Rail lines only, without tags.</small></label></section>
- <section><h2>Road classes</h2><div id="cls"></div></section>
- <section><h2>Download</h2><div class="btns"><button id="dlG">GeoJSON</button><button id="dlC">CSV</button><button class="p w" id="dlAll">Whole country, current selection</button><button class="w" id="replay">Reload live from OpenStreetMap</button></div><p class="note" id="src"></p><p class="note" id="dlMsg">GeoJSON and CSV export the roads currently shown.</p></section>
-<section class="ft" style="border:0"><span>Data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · #31DayOSMChallenge</span><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a></section>
+ <section><h2 data-i18n="overlay">Overlay</h2><label class="opt"><input type="checkbox" id="rl"><b data-i18n="railway">Railway</b><small data-i18n="railwayHint">Rail lines only, without tags.</small></label></section>
+ <section><h2 data-i18n="roadClasses">Road classes</h2><div id="cls"></div></section>
+ <section><h2 data-i18n="download">Download</h2><div class="btns"><button id="dlG">GeoJSON</button><button id="dlC">CSV</button><button class="p w" id="dlAll" data-i18n="dlAll">Whole country, current selection</button><button class="w" id="replay" data-i18n="replay">Reload live from OpenStreetMap</button></div><p class="note" id="src"></p><p class="note" id="dlMsg" data-i18n="dlMsg">GeoJSON and CSV export the roads currently shown.</p></section>
+<section class="ft" style="border:0"><span><span data-i18n="credit1">Data</span> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> <span data-i18n="credit2">contributors</span> · #31DayOSMChallenge</span><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a></section>
 </aside>
-<div id="map"><div id="prog"></div><div id="status"><div id="st">Starting…</div><div id="tick">&nbsp;</div></div></div>
+<div id="map"><div id="prog"></div><div id="status"><div id="st" data-i18n="stStarting">Starting…</div><div id="tick">&nbsp;</div></div></div>
 </div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
@@ -86,6 +91,95 @@ const THEMES={ // [key,label,light,dark]
  lit:{key:'lit',L:[['yes','Lit','#E8A400','#FFC233'],['no','Unlit','#33475B','#7F93A8'],['unk','Not tagged',...NA]]},
  surface:{key:'sc',L:[['paved','Paved','#0072C6','#3AA0F0'],['unpaved','Unpaved','#B8631F','#E08A45'],['unknown','Not tagged',...NA]]},
  grade:{key:'tg',L:[['g1','Grade 1 · solid, paved','#1B9E77','#2FC79A'],['g2','Grade 2 · gravel','#8DBB00','#B4DB2E'],['g3','Grade 3 · mixed','#F2A900','#FFC233'],['g4','Grade 4 · mostly soft','#E0702A','#FF8F4A'],['g5','Grade 5 · soft earth','#B3261E','#FF5A4F'],['none','Track, grade not tagged',...NA]]}};
+/* ---------- i18n ---------- */
+const I18N={
+en:{
+ doctitle:'Roads of Sierra Leone · 31 Days of OSM',
+ title:'Roads of Sierra Leone',
+ h1:'Sierra Leone,<br>road by road',
+ intro:'The national road network from OpenStreetMap. Main roads (tertiary and above) load on arrival; local roads load on request.',
+ segments:'segments',km:'km',unpaved:'% unpaved',
+ mapLayer:'Map layer',
+ speedLimits:'Speed limits',speedLimitsHint:'Legal limit of every road, labelled on the map. Grey = no limit tagged.',
+ lighting:'Street lighting',lightingHint:'Lit, unlit, or not tagged.',
+ surface:'Surface',surfaceHint:'Paved or unpaved.',
+ grade:'Track grade',gradeHint:'Tracks classified by firmness, grade 1 (solid) to 5 (soft). Other roads in grey.',
+ overlay:'Overlay',railway:'Railway',railwayHint:'Rail lines only, without tags.',
+ roadClasses:'Road classes',
+ mainLoaded:'Main roads · loaded',localRoads:'Local roads',load:'Load',
+ clsNote:'Local roads load for the area on screen once you zoom in. Tracks and paths are hidden by default: tick them to show.',
+ download:'Download',dlAll:'Whole country, current selection',replay:'Reload live from OpenStreetMap',
+ dlMsg:'GeoJSON and CSV export the roads currently shown.',
+ darkMode:'Dark mode',lightMode:'Light mode',
+ credit1:'Data',credit2:'contributors',
+ srcSnapshot:'Source: saved snapshot of {date} (GitHub). Use “Reload live” for the latest OSM edits.',
+ srcLive:'Source: live from OpenStreetMap.',
+ stStarting:'Starting…',stLoadingMain:'Loading main roads from OpenStreetMap',stConnecting:'Connecting…',
+ stReadingSnapshot:'Reading saved snapshot…',stLoadingMainShort:'Loading main roads',stMainLoaded:'Main roads loaded',
+ stMainMissing:'Main roads loaded, {n} tile(s) missing',stSnapshot:'Snapshot',
+ stLocalOn:'Local roads on',stZoomIn:'Zoom in to level 10 to load them',stLocalLoaded:'Local roads loaded',
+ stLoadingLocal:'Loading local roads',stArea:'Area',stBusy:'Service busy',stPanRetry:'Pan the map to retry',
+ stLoadingRail:'Loading railway',stFromOSM:'From OpenStreetMap',stRailLoaded:'Railway loaded',stTickRetry:'Tick again to retry',
+ stPrep:'Preparing download',stFetching:'Fetching {x} from OpenStreetMap…',stDlReady:'Download ready',
+ stSaved:'Saved {n} segments.',stDlFail:'Download failed: the data service is busy. Try again in a minute.',
+ stTile:'Tile',stOf:'of',stRetry:'retrying',stSeg:'seg.',stTotal:'total',stPressReload:'press “Reload live”',
+ popUnnamed:'Unnamed road',popClass:'Class',popOsmType:'OSM type',popRef:'Ref',popGrade:'Track grade',
+ popSurface:'Surface',popSpeed:'Speed limit',popLight:'Lighting',popLength:'Length',
+ popEdit:'Edit on OpenStreetMap',notTagged:'not tagged',
+ 'c.motorway':'Motorway','c.trunk':'Trunk','c.primary':'Primary','c.secondary':'Secondary','c.tertiary':'Tertiary',
+ 'c.unclassified':'Unclassified','c.residential':'Residential','c.track':'Track','c.service':'Service','c.path':'Path / footway',
+ 'th.speed.a':'30 km/h or less','th.speed.b':'40–50 km/h','th.speed.c':'60–70 km/h','th.speed.d':'80 km/h or more','th.speed.none':'No limit tagged',
+ 'th.lit.yes':'Lit','th.lit.no':'Unlit','th.lit.unk':'Not tagged',
+ 'th.surface.paved':'Paved','th.surface.unpaved':'Unpaved','th.surface.unknown':'Not tagged',
+ 'th.grade.g1':'Grade 1 · solid, paved','th.grade.g2':'Grade 2 · gravel','th.grade.g3':'Grade 3 · mixed',
+ 'th.grade.g4':'Grade 4 · mostly soft','th.grade.g5':'Grade 5 · soft earth','th.grade.none':'Track, grade not tagged'
+},
+kri:{
+ doctitle:'Rod dɛn na Salone · 31 Days of OSM',
+ title:'Rod dɛn na Salone',
+ h1:'Salone,<br>rod pan rod',
+ intro:'Di nashɔnal rod nɛtwɔk frɔm OpenStreetMap. Di men rod dɛn (tɛshɛri ɛn ɔp) de lod we yu kam; di lokal rod dɛn de lod we yu aks.',
+ segments:'sɛgmɛnt',km:'km',unpaved:'% nɔ pav',
+ mapLayer:'Map leya',
+ speedLimits:'Spid limit dɛn',speedLimitsHint:'Di lɔ spid limit fɔ ɔl rod, we dɛn rayt pan di map. Gre = nɔ limit nɔ de tag.',
+ lighting:'Strit layt',lightingHint:'Layt de, layt nɔ de, ɔ dɛn nɔ tag am.',
+ surface:'Sɔfɛs',surfaceHint:'Pav ɔ nɔ pav.',
+ grade:'Trɛk greyd',gradeHint:'Trɛk dɛn we dɛn sɔt pan ɔmɔs strɔng: greyd 1 (strɔng) go to 5 (sɔft). Ɔda rod dɛn na gre.',
+ overlay:'Ovale',railway:'Reltin',railwayHint:'Reltin dɛn nɔmɔ, nɔ gɛt tag.',
+ roadClasses:'Rod klæs dɛn',
+ mainLoaded:'Men rod dɛn · dɔn lod',localRoads:'Lokal rod dɛn',load:'Lod',
+ clsNote:'Lokal rod dɛn de lod fɔ di eria we de pan skrin we yu zum in. Trɛk ɛn pas dɛn de hid bay difɔlt: tik dɛn fɔ sho.',
+ download:'Dawnlod',dlAll:'Ɔl di kɔntri, wetin yu pik so',replay:'Lod bak layv frɔm OpenStreetMap',
+ dlMsg:'GeoJSON ɛn CSV de ekspɔt di rod dɛn we yu de si so.',
+ darkMode:'Dak mod',lightMode:'Layt mod',
+ credit1:'Data',credit2:'kɔntribyuta dɛn',
+ srcSnapshot:'Sɔs: sev snapshot frɔm {date} (GitHub). Yuz “Lod bak layv” fɔ di nyu OSM chenj dɛn.',
+ srcLive:'Sɔs: layv frɔm OpenStreetMap.',
+ stStarting:'De stat…',stLoadingMain:'De lod men rod dɛn frɔm OpenStreetMap',stConnecting:'De kɔnɛkt…',
+ stReadingSnapshot:'De rid di sev snapshot…',stLoadingMainShort:'De lod men rod dɛn',stMainLoaded:'Men rod dɛn dɔn lod',
+ stMainMissing:'Men rod dɛn dɔn lod, {n} tayl nɔ de',stSnapshot:'Snapshot',
+ stLocalOn:'Lokal rod dɛn ɔn',stZoomIn:'Zum in go lɛvɛl 10 fɔ lod dɛn',stLocalLoaded:'Lokal rod dɛn dɔn lod',
+ stLoadingLocal:'De lod lokal rod dɛn',stArea:'Eria',stBusy:'Sɛvis biz',stPanRetry:'Pan di map fɔ tray bak',
+ stLoadingRail:'De lod reltin',stFromOSM:'Frɔm OpenStreetMap',stRailLoaded:'Reltin dɔn lod',stTickRetry:'Tik bak fɔ tray bak',
+ stPrep:'De pripia dawnlod',stFetching:'De fɛch {x} frɔm OpenStreetMap…',stDlReady:'Dawnlod rɛdi',
+ stSaved:'Sev {n} sɛgmɛnt.',stDlFail:'Dawnlod nɔ wok: di data sɛvis biz. Tray bak na wan minit.',
+ stTile:'Tayl',stOf:'pan',stRetry:'de tray bak',stSeg:'sɛg.',stTotal:'ɔl tɔgɛda',stPressReload:'pres “Lod bak layv”',
+ popUnnamed:'Rod we nɔ gɛt nem',popClass:'Klæs',popOsmType:'OSM kayn',popRef:'Ref',popGrade:'Trɛk greyd',
+ popSurface:'Sɔfɛs',popSpeed:'Spid limit',popLight:'Layt',popLength:'Lɛng',
+ popEdit:'Ɛdit pan OpenStreetMap',notTagged:'dɛn nɔ tag',
+ 'c.motorway':'Motowe','c.trunk':'Big rod','c.primary':'Men rod','c.secondary':'Sɛkɔndri','c.tertiary':'Tɛshɛri',
+ 'c.unclassified':'Nɔ klæs','c.residential':'Rɛsidɛnshal','c.track':'Trɛk','c.service':'Sɛvis','c.path':'Pas / fut rod',
+ 'th.speed.a':'30 km/h ɔ lɛs','th.speed.b':'40–50 km/h','th.speed.c':'60–70 km/h','th.speed.d':'80 km/h ɔ mɔ','th.speed.none':'Nɔ limit nɔ de tag',
+ 'th.lit.yes':'Layt de','th.lit.no':'Nɔ layt','th.lit.unk':'Dɛn nɔ tag',
+ 'th.surface.paved':'Pav','th.surface.unpaved':'Nɔ pav','th.surface.unknown':'Dɛn nɔ tag',
+ 'th.grade.g1':'Greyd 1 · strɔng, pav','th.grade.g2':'Greyd 2 · gravɛl','th.grade.g3':'Greyd 3 · miks',
+ 'th.grade.g4':'Greyd 4 · plɛnti sɔft','th.grade.g5':'Greyd 5 · sɔft grɔn','th.grade.none':'Trɛk, dɛn nɔ tag greyd'
+}};
+/* English is always the default on load; the toggle only changes the current session. */
+let LANG='en';
+const t=k=>{const d=I18N[LANG]||I18N.en;return d[k]!==undefined?d[k]:(I18N.en[k]!==undefined?I18N.en[k]:k)};
+const clsName=k=>t('c.'+k),thName=(th,k)=>t('th.'+th+'.'+k);
+/* ---------- /i18n ---------- */
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let DARK=false;try{const v=localStorage.getItem('slr-theme');DARK=v?v==='dark':matchMedia('(prefers-color-scheme:dark)').matches}catch{}
 document.documentElement.dataset.theme=DARK?'dark':'light';
@@ -104,7 +198,7 @@ let ep=0,LASTERR='';async function ovp(q){let last;for(let i=0;i<6;i++){const u=
   LASTERR=last;await new Promise(r=>setTimeout(r,1500*(i+1)))}throw Error(last)}
 const AREA='area(id:3600192777)->.a;';
 const cellQ=(l,b)=>`[out:json][timeout:60];${AREA}${hw(l)}(${b.join(',')})(area.a);out geom tags;`,countryQ=l=>`[out:json][timeout:240];${AREA}${hw(l)}(area.a);out geom tags;`;
-function status(t,tick,pct){$('#st').textContent=t;if(tick!==undefined)$('#tick').innerHTML=tick||'&nbsp;';if(pct!==undefined){$('#prog').style.width=pct+'%';if(pct>=100)setTimeout(()=>$('#prog').style.width='0',700)}}
+function status(msg,tick,pct){$('#st').textContent=msg;if(tick!==undefined)$('#tick').innerHTML=tick||'&nbsp;';if(pct!==undefined){$('#prog').style.width=pct+'%';if(pct>=100)setTimeout(()=>$('#prog').style.width='0',700)}}
 let t0=0;function flash(fs){const f=fs.filter(x=>pass(x.properties));if(!f.length||!map.getSource('fresh'))return;map.getSource('fresh').setData({type:'FeatureCollection',features:f});t0=performance.now();requestAnimationFrame(fade)}
 function fade(n){const k=Math.min(1,(n-t0)/1500);map.setPaintProperty('fresh','line-opacity',(1-k)*.85);if(k<1)requestAnimationFrame(fade)}
 let META,FORCELIVE=false;
@@ -112,20 +206,20 @@ async function meta(){if(META!==undefined)return META;try{const r=await fetch('d
 async function loadStatic(t){if(FORCELIVE)return false;if(staticOK[t]!==undefined)return staticOK[t];const m=await meta();if(!m||!m.files||!(m.files[t]||[]).length)return staticOK[t]=false;
  try{const js=await Promise.all(m.files[t].map(f=>fetch('data/'+f).then(r=>{if(!r.ok)throw 0;return r.text()}).then(tx=>{BYTES+=tx.length;return JSON.parse(tx)})));
   for(const j of js)for(const f of j.features){const p=f.properties;p.sp=spBin(p.speed);p.tg=p.tg||(p.cls==='track'?'none':'na');DB.set(p.id,f)}return staticOK[t]=true}catch{return staticOK[t]=false}}
-const srcNote=()=>{$('#src').textContent=!FORCELIVE&&META&&staticOK[1]?`Source: saved snapshot of ${META.updated} (GitHub). Use “Reload live” for the latest OSM edits.`:'Source: live from OpenStreetMap.'};
+const srcNote=()=>{$('#src').textContent=!FORCELIVE&&META&&staticOK[1]?t('srcSnapshot').replace('{date}',META.updated):t('srcLive')};
 async function pool(jobs,n,fn){let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<jobs.length)await fn(jobs[i++])}))}
 function grid(s){const c=[];for(let x=BOUNDS[0][0];x<BOUNDS[1][0];x+=s)for(let y=BOUNDS[0][1];y<BOUNDS[1][1];y+=s)c.push([+y.toFixed(3),+x.toFixed(3),+(y+s).toFixed(3),+(x+s).toFixed(3)]);return c}
-async function loadMain(){const gen=++GEN,cl=[...TIERS[1],...TIERS[2]];busy++;status('Loading main roads from OpenStreetMap','Connecting…',2);
- status('Loading main roads','Reading saved snapshot…',10);if(await loadStatic(1)&&await loadStatic(2)){busy--;status('Main roads loaded',`Snapshot ${META.updated} · ${DB.size.toLocaleString()} segments · ${mb()}`,100);flash([...DB.values()]);srcNote();render();return}
+async function loadMain(){const gen=++GEN,cl=[...TIERS[1],...TIERS[2]];busy++;status(t('stLoadingMain'),t('stConnecting'),2);
+ status(t('stLoadingMainShort'),t('stReadingSnapshot'),10);if(await loadStatic(1)&&await loadStatic(2)){busy--;status(t('stMainLoaded'),`${t('stSnapshot')} ${META.updated} · ${DB.size.toLocaleString()} ${t('segments')} · ${mb()}`,100);flash([...DB.values()]);srcNote();render();return}
  const g=grid(.75);let done=0,total=0,todo=g;
  for(let round=0;round<3&&todo.length&&gen===GEN;round++){const bad=[];
   await pool(todo,2,async b=>{if(gen!==GEN)return;try{const f=ingest(await ovp(cellQ(cl,b)));total+=f.length;flash(f);render();done++}catch(e){bad.push(b)}
-   status('Loading main roads from OpenStreetMap',`Tile ${done} of ${g.length} · ${mb()} · ${total.toLocaleString()} seg.${bad.length?' · retrying '+bad.length:''}`,done/g.length*100)});
+   status(t('stLoadingMain'),`${t('stTile')} ${done} ${t('stOf')} ${g.length} · ${mb()} · ${total.toLocaleString()} ${t('stSeg')}${bad.length?' · '+t('stRetry')+' '+bad.length:''}`,done/g.length*100)});
   todo=bad}
- srcNote();busy--;status(todo.length?`Main roads loaded, ${todo.length} tile(s) missing`:'Main roads loaded',todo.length?`${LASTERR||'Service busy'} · press “Reload live”`:`${DB.size.toLocaleString()} segments · ${mb()}`,100);render()}
-async function loadView(){if(!S.local)return;if(map.getZoom()<9.5){status('Local roads on','Zoom in to level 10 to load them');return}if(await loadStatic(3)){srcNote();status('Local roads loaded',`Snapshot ${META.updated} · ${mb()}`,100);render();return}
+ srcNote();busy--;status(todo.length?t('stMainMissing').replace('{n}',todo.length):t('stMainLoaded'),todo.length?`${LASTERR||t('stBusy')} · ${t('stPressReload')}`:`${DB.size.toLocaleString()} ${t('segments')} · ${mb()}`,100);render()}
+async function loadView(){if(!S.local)return;if(map.getZoom()<9.5){status(t('stLocalOn'),t('stZoomIn'));return}if(await loadStatic(3)){srcNote();status(t('stLocalLoaded'),`${t('stSnapshot')} ${META.updated} · ${mb()}`,100);render();return}
  const b=map.getBounds(),s=.4,need=[];for(let x=Math.floor(b.getWest()/s);x<=Math.floor(b.getEast()/s);x++)for(let y=Math.floor(b.getSouth()/s);y<=Math.floor(b.getNorth()/s);y++){const k=x+':'+y;if(!cells.has(k)&&x*s>=BOUNDS[0][0]-s&&x*s<BOUNDS[1][0]&&y*s>=BOUNDS[0][1]-s&&y*s<BOUNDS[1][1])need.push([x,y,k])}
- const gen=GEN;await pool(need.slice(0,9),2,async([x,y,k])=>{cells.add(k);busy++;status('Loading local roads','Area '+k.replace(':','/'),30);try{const f=ingest(await ovp(cellQ(TIERS[3],[y*s,x*s,(y+1)*s,(x+1)*s])));if(gen!==GEN)return;flash(f);status('Loading local roads',`+${f.length.toLocaleString()} segments · ${mb()} total`,100)}catch{cells.delete(k);status('Service busy','Pan the map to retry',100)}busy--;render()})}
+ const gen=GEN;await pool(need.slice(0,9),2,async([x,y,k])=>{cells.add(k);busy++;status(t('stLoadingLocal'),`${t('stArea')} ${k.replace(':','/')}`,30);try{const f=ingest(await ovp(cellQ(TIERS[3],[y*s,x*s,(y+1)*s,(x+1)*s])));if(gen!==GEN)return;flash(f);status(t('stLoadingLocal'),`+${f.length.toLocaleString()} ${t('segments')} · ${mb()} ${t('stTotal')}`,100)}catch{cells.delete(k);status(t('stBusy'),t('stPanRetry'),100)}busy--;render()})}
 // ---------- filtering ----------
 function pass(p,skip){if(skip!=='cls'&&!(S.cls.has(p.cls)&&(CI[p.cls]<MAIN||S.local)))return false;if(skip!=='cat'&&TH&&H.has(p[THEMES[TH].key]))return false;return true}
 let timer;const render=()=>{clearTimeout(timer);timer=setTimeout(draw,90)};
@@ -139,10 +233,10 @@ function draw(){const fs=[],pc={},pt={};let tot=0,unp=0;
  set('',pc);if(TH)set('c',pt);updLegend()}
 // ---------- ui ----------
 const row=(id,k,label,col,h,on,bs)=>`<label class="row${on?'':' off'}" style="--c:${col};--h:${h}px;--bs:${bs||'solid'}"><input type="checkbox" data-k="${k}"${on?' checked':''}><span class="sw"></span><span>${label}</span><span class="v" id="${id}v-${k}">–</span><span class="bar"><i id="${id}b-${k}"></i></span></label>`;
-function buildCls(){const r=c=>row('',c[0],c[1],cc(c),c[6],S.cls.has(c[0]),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid');
- $('#cls').innerHTML=`<div class="grp"><b>Main roads · loaded</b></div>`+CLS.slice(0,MAIN).map(r).join('')+`<div class="grp"><b>Local roads</b><label><input type="checkbox" id="loc"${S.local?' checked':''}>Load</label></div>`+CLS.slice(MAIN).map(r).join('')+`<p class="note">Local roads load for the area on screen once you zoom in. Tracks and paths are hidden by default: tick them to show.</p>`;render()}
+function buildCls(){const r=c=>row('',c[0],clsName(c[0]),cc(c),c[6],S.cls.has(c[0]),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid');
+ $('#cls').innerHTML=`<div class="grp"><b>${t('mainLoaded')}</b></div>`+CLS.slice(0,MAIN).map(r).join('')+`<div class="grp"><b>${t('localRoads')}</b><label><input type="checkbox" id="loc"${S.local?' checked':''}>${t('load')}</label></div>`+CLS.slice(MAIN).map(r).join('')+`<p class="note">${t('clsNote')}</p>`;render()}
 $('#cls').onchange=e=>{const i=e.target;if(i.id==='loc'){S.local=i.checked;if(S.local&&map.getZoom()<9.5)map.easeTo({zoom:10});loadView();render();return}const k=i.dataset.k;i.checked?S.cls.add(k):S.cls.delete(k);i.closest('.row').classList.toggle('off',!i.checked);render()};
-function legendUI(){const L=$('#leg');if(!TH){L.innerHTML='';return}L.innerHTML=THEMES[TH].L.map(l=>row('c',l[0],l[1],tl(l),5,!H.has(l[0]))).join('');render()}
+function legendUI(){const L=$('#leg');if(!TH){L.innerHTML='';return}L.innerHTML=THEMES[TH].L.map(l=>row('c',l[0],thName(TH,l[0]),tl(l),5,!H.has(l[0]))).join('');render()}
 $('#leg').onchange=e=>{const i=e.target,k=i.dataset.k;i.checked?H.delete(k):H.add(k);i.closest('.row').classList.toggle('off',!i.checked);render()};
 document.querySelectorAll('[data-th]').forEach(c=>c.onchange=()=>{document.querySelectorAll('[data-th]').forEach(o=>{if(o!==c)o.checked=false});TH=c.checked?c.dataset.th:null;H=new Set();
  if(TH==='grade'){S.local=true;S.cls.add('track');if(map.getZoom()<9.5)map.easeTo({zoom:10});loadView()}buildCls();legendUI();recolor()});
@@ -150,11 +244,21 @@ document.querySelectorAll('[data-th]').forEach(c=>c.onchange=()=>{document.query
 const map=new maplibregl.Map({container:'map',style:STY(),bounds:BOUNDS,fitBoundsOptions:{padding:30},attributionControl:{compact:true}});
 map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
 map.addControl({onAdd(){const e=document.createElement('div');e.className='maplibregl-ctrl lg';e.id='lg';return e},onRemove(){}},'bottom-right');
+// language toggle lives in the top bar next to the LinkedIn icon; wire clicks here
+document.addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(b)setLang(b.dataset.lang)});
+const updLangBtns=()=>document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===LANG)));
+const syncChrome=()=>{$('#tm').textContent=DARK?t('lightMode'):t('darkMode')};
+function applyStatic(){document.documentElement.lang=LANG==='kri'?'kri':'en';document.title=t('doctitle');
+ document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.getAttribute('data-i18n'))});
+ document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.getAttribute('data-i18n-html'))});
+ syncChrome();$('#dlMsg').textContent=t('dlMsg')}
+function setLang(l){LANG=l==='kri'?'kri':'en';
+ applyStatic();updLangBtns();buildCls();legendUI();updLegend();srcNote();render()}
 // compact "what is shown now" key (no title)
 function updLegend(){const e=$('#lg');if(!e)return;const li=(c,l,h,bs)=>`<div style="--c:${c};--h:${h}px;--bs:${bs||'solid'}"><i></i>${l}</div>`;let o='';
- if(TH)o=THEMES[TH].L.filter(l=>!H.has(l[0])).map(l=>li(tl(l),l[1],3)).join('');
- else o=CLS.filter(c=>S.cls.has(c[0])&&(CI[c[0]]<MAIN||S.local)).map(c=>li(cc(c),c[1],Math.min(c[6],4),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid')).join('');
- if(RL)o+=li(DARK?'#9AA6B2':'#59646F','Railway',2);e.innerHTML=o;e.style.display=o?'block':'none'}
+ if(TH)o=THEMES[TH].L.filter(l=>!H.has(l[0])).map(l=>li(tl(l),thName(TH,l[0]),3)).join('');
+ else o=CLS.filter(c=>S.cls.has(c[0])&&(CI[c[0]]<MAIN||S.local)).map(c=>li(cc(c),clsName(c[0]),Math.min(c[6],4),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid')).join('');
+ if(RL)o+=li(DARK?'#9AA6B2':'#59646F',t('railway'),2);e.innerHTML=o;e.style.display=o?'block':'none'}
 const W=(c,m)=>['interpolate',['linear'],['zoom'],5,c[5][0]*m,10,c[5][1]*m,16,c[5][2]*m];
 function colour(){const gr=NA[DARK?1:0];if(!TH)return['match',['get','cls'],...CLS.flatMap(c=>[c[0],cc(c)]),gr];return['match',['get',THEMES[TH].key],...THEMES[TH].L.flatMap(l=>[l[0],tl(l)]),gr]}
 function recolor(){CLS.forEach(c=>map.setPaintProperty('r-'+c[0],'line-color',colour()));map.setLayoutProperty('speed-lbl','visibility',TH==='speed'?'visible':'none');render()}
@@ -175,19 +279,18 @@ function setup(){
  map.addLayer({id:'speed-lbl',type:'symbol',source:'roads',minzoom:11.5,filter:['>',['coalesce',['get','speed'],0],0],layout:{visibility:'none','symbol-placement':'line','text-field':['to-string',['get','speed']],'text-font':font,'text-size':11,'symbol-spacing':260,'text-keep-upright':true},paint:{'text-color':DARK?'#E8EDF2':'#0E1B2A','text-halo-color':DARK?'#0F161E':'#fff','text-halo-width':2}});
  recolor()}
 map.on('style.load',()=>{setup();if(!started){started=true;lock();loadMain()}});
-const GR={g1:'Grade 1',g2:'Grade 2',g3:'Grade 3',g4:'Grade 4',g5:'Grade 5',none:'not tagged'};
 CLS.forEach(c=>{map.on('mouseenter','r-'+c[0],()=>map.getCanvas().style.cursor='pointer');map.on('mouseleave','r-'+c[0],()=>map.getCanvas().style.cursor='');
  map.on('click','r-'+c[0],e=>{const p=e.features[0].properties,r=(a,b)=>b?`<tr><td>${a}</td><td>${esc(b)}</td></tr>`:'',n=v=>v!=null&&v!=='null'&&v!=='';
-  new maplibregl.Popup({maxWidth:'280px'}).setLngLat(e.lngLat).setHTML(`<div class="pop"><div class="pt">${esc(p.name||p.ref||'Unnamed road')}</div><table>${r('Class',c[1])}${p.hw&&p.hw.replace('_link','')!==c[0]?r('OSM type',p.hw):''}${r('Ref',p.ref)}${p.tg&&p.tg!=='na'?r('Track grade',GR[p.tg]):''}${r('Surface',p.surface)}${r('Speed limit',n(p.speed)?p.speed+' km/h':'not tagged')}${r('Lighting',{yes:'lit',no:'unlit',unk:'not tagged'}[p.lit])}${r('Length',p.km+' km')}</table><a href="https://www.openstreetmap.org/way/${p.id}" target="_blank" rel="noopener">Edit on OpenStreetMap</a></div>`).addTo(map)})});
+  new maplibregl.Popup({maxWidth:'280px'}).setLngLat(e.lngLat).setHTML(`<div class="pop"><div class="pt">${esc(p.name||p.ref||t('popUnnamed'))}</div><table>${r(t('popClass'),clsName(c[0]))}${p.hw&&p.hw.replace('_link','')!==c[0]?r(t('popOsmType'),p.hw):''}${r(t('popRef'),p.ref)}${p.tg&&p.tg!=='na'?r(t('popGrade'),thName('grade',p.tg)):''}${r(t('popSurface'),p.surface)}${r(t('popSpeed'),n(p.speed)?p.speed+' km/h':t('notTagged'))}${r(t('popLight'),thName('lit',p.lit))}${r(t('popLength'),p.km+' km')}</table><a href="https://www.openstreetmap.org/way/${p.id}" target="_blank" rel="noopener">${t('popEdit')}</a></div>`).addTo(map)})});
 map.on('moveend',loadView);
 $('#replay').onclick=()=>{FORCELIVE=true;BYTES=0;GEN++;DB=new Map();cells=new Set();staticOK={};map.getSource('roads').setData({type:'FeatureCollection',features:[]});$('#dlMsg').textContent='';srcNote();loadMain().then(loadView)};
-$('#tm').onclick=()=>{DARK=!DARK;document.documentElement.dataset.theme=DARK?'dark':'light';$('#tm').textContent=DARK?'Light mode':'Dark mode';try{localStorage.setItem('slr-theme',DARK?'dark':'light')}catch{}buildCls();legendUI();map.setStyle(STY(),{diff:false})};
-$('#tm').textContent=DARK?'Light mode':'Dark mode';buildCls();
+$('#tm').onclick=()=>{DARK=!DARK;document.documentElement.dataset.theme=DARK?'dark':'light';syncChrome();try{localStorage.setItem('slr-theme',DARK?'dark':'light')}catch{}buildCls();legendUI();map.setStyle(STY(),{diff:false})};
+applyStatic();updLangBtns();buildCls();
 // railway overlay: rails only, no tags
 $('#rl').onchange=async e=>{RL=e.target.checked;updLegend();['rail-a','rail-b'].forEach(i=>map.setLayoutProperty(i,'visibility',RL?'visible':'none'));
- if(RL&&!railDone){railDone=true;busy++;status('Loading railway','From OpenStreetMap',30);
-  try{const els=await ovp(`[out:json][timeout:90];${AREA}way["railway"="rail"](area.a);out geom;`);RAIL={type:'FeatureCollection',features:els.filter(x=>x.geometry).map(x=>({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:x.geometry.map(g=>[g.lon,g.lat])}}))};map.getSource('rail').setData(RAIL);status('Railway loaded',RAIL.features.length+' segments',100)}
-  catch{railDone=false;status('Service busy','Tick again to retry',100)}busy--}};
+ if(RL&&!railDone){railDone=true;busy++;status(t('stLoadingRail'),t('stFromOSM'),30);
+  try{const els=await ovp(`[out:json][timeout:90];${AREA}way["railway"="rail"](area.a);out geom;`);RAIL={type:'FeatureCollection',features:els.filter(x=>x.geometry).map(x=>({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:x.geometry.map(g=>[g.lon,g.lat])}}))};map.getSource('rail').setData(RAIL);status(t('stRailLoaded'),RAIL.features.length+' '+t('segments'),100)}
+  catch{railDone=false;status(t('stBusy'),t('stTickRetry'),100)}busy--}};
 // ---------- download ----------
 function save(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4e3)}
 const stamp=()=>new Date().toISOString().slice(0,10),toGJ=fs=>JSON.stringify({type:'FeatureCollection',name:'sierra_leone_roads',features:fs});
@@ -195,8 +298,8 @@ const toCSV=fs=>{const k=['id','cls','hw','name','ref','surface','tg','speed','l
 $('#dlG').onclick=()=>CURRENT.length?save(`sierra-leone-roads-${stamp()}.geojson`,toGJ(CURRENT),'application/geo+json'):0;
 $('#dlC').onclick=()=>CURRENT.length?save(`sierra-leone-roads-${stamp()}.csv`,toCSV(CURRENT),'text/csv'):0;
 $('#dlAll').onclick=async()=>{const m=$('#dlMsg'),out=new Map();busy++;
- try{for(const t of[1,2,3]){const l=TIERS[t].filter(c=>S.cls.has(c)&&(t<3||S.local));if(!l.length)continue;m.textContent=`Fetching ${l.join(', ')} from OpenStreetMap…`;status('Preparing download',l.join(', '),t*30);
+ try{for(const t of[1,2,3]){const l=TIERS[t].filter(c=>S.cls.has(c)&&(t<3||S.local));if(!l.length)continue;m.textContent=t('stFetching').replace('{x}',l.join(', '));status(t('stPrep'),l.join(', '),t*30);
    if(await loadStatic(t)){for(const f of DB.values())if(l.includes(f.properties.cls))out.set(f.properties.id,f)}else for(const e of await ovp(countryQ(l))){const f=feat(e);if(f)out.set(e.id,f)}}
-  const fs=[...out.values()].filter(f=>pass(f.properties));save(`sierra-leone-roads-country-${stamp()}.geojson`,toGJ(fs),'application/geo+json');m.textContent=`Saved ${fs.length.toLocaleString()} segments.`;status('Download ready','',100)}
- catch(e){m.textContent='Download failed: the data service is busy. Try again in a minute.'}busy--};
+  const fs=[...out.values()].filter(f=>pass(f.properties));save(`sierra-leone-roads-country-${stamp()}.geojson`,toGJ(fs),'application/geo+json');m.textContent=t('stSaved').replace('{n}',fs.length.toLocaleString());status(t('stDlReady'),'',100)}
+ catch(e){m.textContent=t('stDlFail')}busy--};
 </script></body></html>
