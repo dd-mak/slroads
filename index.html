@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roads of Sierra Leone · 31 Days of OSM</title>
+<meta name="description" content="Road network, speed limits, street lighting and surface of Sierra Leone from OpenStreetMap.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+:root{--ink:#0E1B2A;--mut:#6B7785;--ln:#DCE1E6;--bg:#F1F3F5;--g:#1EA43A;--b:#0072C6;--paper:#fff;--tx2:#3C4957;color-scheme:light}
+[data-theme=dark]{--ink:#E8EDF2;--mut:#93A0AE;--ln:#27323E;--bg:#1A232D;--g:#3DD05A;--b:#3AA0F0;--paper:#0F161E;--tx2:#B9C4D0;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:100%;margin:0;font:13px/1.45 'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+#top{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--ln);background:var(--paper)}
+#top b{font-size:15px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.mark{display:inline-flex;flex-direction:column;width:20px;height:14px;border:1px solid var(--ink)}.mark i{flex:1}.mark i:nth-child(1){background:var(--g)}.mark i:nth-child(3){background:var(--b)}
+#top .mark{font-size:0}
+#wrap{position:absolute;top:48px;left:0;right:0;bottom:0;display:flex}
+aside{width:348px;flex:none;border-right:1px solid var(--ln);overflow:auto;background:var(--paper)}
+#map{flex:1;position:relative}
+section{padding:18px 20px;border-bottom:1px solid var(--ln)}
+h1{font-size:26px;line-height:1.1;font-weight:800;letter-spacing:-.025em;margin:0 0 8px}
+h2{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
+p{margin:0;color:var(--tx2)}.note{color:var(--mut);font-size:12px;margin-top:6px}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);padding:0;border-bottom:1px solid var(--ln)}
+.kpi div{padding:14px 20px;border-right:1px solid var(--ln)}.kpi div:last-child{border:0;padding-left:16px}.kpi div:nth-child(2){padding-left:16px}
+.kpi b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.kpi span{font-size:11.5px;color:var(--mut)}
+label.opt{display:grid;grid-template-columns:18px 1fr;gap:2px 10px;cursor:pointer;padding:9px 0;border-top:1px solid var(--ln)}label.opt:first-of-type{border-top:0;padding-top:0}
+label.opt b{font-weight:700}label.opt small{grid-column:2;color:var(--mut);font-size:12px;line-height:1.4}
+input[type=checkbox]{accent-color:var(--b);width:15px;height:15px;margin:2px 0 0}
+.row{display:grid;grid-template-columns:18px 26px 1fr auto;gap:0 10px;align-items:center;padding:7px 0;cursor:pointer;position:relative}
+.row .sw{display:block;height:0;border-top:var(--h,4px) var(--bs,solid) var(--c)}.row .v{color:var(--mut);font-variant-numeric:tabular-nums;font-size:12px}
+.row .bar{grid-column:2/5;height:2px;background:var(--bg);margin-top:5px}.row .bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
+.row.off{opacity:.4}.grp{display:flex;justify-content:space-between;align-items:center;margin:14px 0 2px;padding-top:12px;border-top:1px solid var(--ln)}.grp:first-of-type{border:0;margin-top:0;padding-top:0}
+.grp b{font-size:12px;font-weight:700}.grp label{display:flex;align-items:center;gap:7px;cursor:pointer;font-weight:600}
+button{font:inherit;font-weight:600;border:1px solid var(--ink);background:var(--paper);color:var(--ink);padding:9px 12px;cursor:pointer;border-radius:0;text-align:left}
+button:hover{background:var(--ink);color:var(--paper)}button.p{background:var(--b);border-color:var(--b);color:#fff}button.p:hover{background:#005a9e}
+button:focus-visible,input:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btns .w{grid-column:1/3}
+#status{position:absolute;left:10px;bottom:26px;background:color-mix(in srgb,var(--paper) 88%,transparent);border:1px solid var(--ln);padding:5px 9px;min-width:170px;z-index:3;font-size:11px;line-height:1.35}
+#st{font-weight:700}#tick{color:var(--mut);font-variant-numeric:tabular-nums}
+#prog{position:absolute;top:0;left:0;height:2px;width:0;background:var(--b);z-index:4;transition:width .3s}
+.maplibregl-popup-content{background:var(--paper);color:var(--ink);border-radius:0;box-shadow:0 2px 10px rgba(14,27,42,.2);font-family:inherit;padding:12px 14px;min-width:200px}
+.pt{font-weight:800;font-size:14px;margin-bottom:6px}.pop td{padding:2px 12px 2px 0}.pop td:first-child{color:var(--mut)}.pop a{color:var(--b);font-weight:600}
+.maplibregl-popup-tip{border-top-color:var(--paper)!important;border-bottom-color:var(--paper)!important}.maplibregl-popup-close-button{color:var(--ink)}
+.maplibregl-ctrl-group{border-radius:0!important;box-shadow:none!important;border:1px solid var(--ln);background:var(--paper)!important}[data-theme=dark] .maplibregl-ctrl button .maplibregl-ctrl-icon{filter:invert(1)}
+.maplibregl-ctrl-scale{background:transparent!important;color:var(--ink)!important;border-color:var(--ink)!important}.maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--paper) 75%,transparent)!important;color:var(--ink)!important}.maplibregl-ctrl-attrib a{color:var(--ink)!important}
+.lg{background:color-mix(in srgb,var(--paper) 72%,transparent)!important;border:1px solid var(--ln);padding:6px 9px;font-size:11px;line-height:1.6;pointer-events:none;margin:0 10px 4px 0!important;color:var(--ink)}.lg div{display:flex;align-items:center;gap:7px;white-space:nowrap}.lg i{display:block;width:16px;height:0;border-top:var(--h,3px) var(--bs,solid) var(--c)}
+.r{display:flex;align-items:center;gap:16px}.li{display:inline-flex;align-items:center;gap:6px;color:var(--ink);text-decoration:none;font-weight:600;font-size:12px}.li svg{width:14px;height:14px;fill:currentColor}.li:hover{text-decoration:underline}#tm{padding:5px 10px;font-size:12px}.ft{font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;gap:8px}.ft a{color:var(--mut)}.ft .li{color:var(--ink)}
+#tg{display:none}
+@media(max-width:760px){#wrap{flex-direction:column-reverse}aside{width:100%;height:46%;border-right:0;border-top:1px solid var(--ln)}#top span{display:none}#status{left:8px;bottom:8px;min-width:0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div id="top"><b><span class="mark"><i></i><i></i><i></i></span>Roads of Sierra Leone</b><div class="r"><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener" aria-label="Daniil M. on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a><button id="tm">Dark mode</button></div></div>
+<div id="wrap">
+<aside>
+ <section><h1>Sierra Leone,<br>road by road</h1><p>The national road network from OpenStreetMap. Main roads (tertiary and above) load on arrival; local roads load on request.</p></section>
+ <div class="kpi"><div><b id="kN">–</b><span>segments</span></div><div><b id="kK">–</b><span>km</span></div><div><b id="kU">–</b><span>% unpaved</span></div></div>
+ <section><h2>Map layer</h2>
+  <label class="opt"><input type="checkbox" data-th="speed"><b>Speed limits</b><small>Legal limit of every road, labelled on the map. Grey = no limit tagged.</small></label>
+  <label class="opt"><input type="checkbox" data-th="lit"><b>Street lighting</b><small>Lit, unlit, or not tagged.</small></label>
+  <label class="opt"><input type="checkbox" data-th="surface"><b>Surface</b><small>Paved or unpaved.</small></label>
+  <label class="opt"><input type="checkbox" data-th="grade"><b>Track grade</b><small>Tracks classified by firmness, grade 1 (solid) to 5 (soft). Other roads in grey.</small></label>
+  <div id="leg" style="margin-top:12px"></div></section>
+ <section><h2>Overlay</h2><label class="opt"><input type="checkbox" id="rl"><b>Railway</b><small>Rail lines only, without tags.</small></label></section>
+ <section><h2>Road classes</h2><div id="cls"></div></section>
+ <section><h2>Download</h2><div class="btns"><button id="dlG">GeoJSON</button><button id="dlC">CSV</button><button class="p w" id="dlAll">Whole country, current selection</button><button class="w" id="replay">Reload live from OpenStreetMap</button></div><p class="note" id="src"></p><p class="note" id="dlMsg">GeoJSON and CSV export the roads currently shown.</p></section>
+<section class="ft" style="border:0"><span>Data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · #31DayOSMChallenge</span><a class="li" href="https://www.linkedin.com/in/daniil-makedonskii-621972251/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Daniil M.</a></section>
+</aside>
+<div id="map"><div id="prog"></div><div id="status"><div id="st">Starting…</div><div id="tick">&nbsp;</div></div></div>
+</div>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const CLS=[ // key,label,light,minzoom,tier,width[z5,z10,z16],swatch px,dark,dash
+['motorway','Motorway','#0E1B2A',0,1,[1.6,3,9],5,'#FFFFFF'],['trunk','Trunk','#0A3A82',0,1,[1.6,3,9],5,'#9CCBFF'],['primary','Primary','#0072C6',0,1,[1.4,2.6,8],4,'#3AA0F0'],
+['secondary','Secondary','#1EA43A',0,2,[1,2,6],3,'#3DD05A'],['tertiary','Tertiary','#6FC27B',6.5,2,[.8,1.6,5],3,'#8FE09B'],
+['unclassified','Unclassified','#C58B2C',9,3,[.5,1.2,4],2,'#E0A94A'],['residential','Residential','#8E9BA8',11,3,[.4,1,4],2,'#7D8A98'],
+['track','Track','#B8631F',10,3,[.7,1.3,3],2,'#D9803A',[3,1.8]],['service','Service','#BCC5CE',13,3,[.3,.8,3],1.5,'#5A6877'],['path','Path / footway','#C23B4E',13,3,[.9,1.2,2],2,'#F06A7C',[.1,2.4]]];
+const MAIN=5,CI=Object.fromEntries(CLS.map((c,i)=>[c[0],i])),OFF=['track','path'];
+const TIERS={1:['motorway','trunk','primary'],2:['secondary','tertiary'],3:['unclassified','residential','track','service','path']};
+const HW={living_street:'residential',road:'unclassified',footway:'path',cycleway:'path',pedestrian:'path',steps:'path',bridleway:'path'};
+const PAVED=new Set('asphalt paved concrete paving_stones sett concrete:plates concrete:lanes bricks cobblestone chipseal metal'.split(' '));
+const OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter'],BOUNDS=[[-13.35,6.85],[-10.2,10.0]];
+const NA=['#B4BDC6','#5B6874']; // light, dark "not tagged"
+const THEMES={ // [key,label,light,dark]
+ speed:{key:'sp',L:[['a','30 km/h or less','#1B9E77','#2FC79A'],['b','40–50 km/h','#8DBB00','#B4DB2E'],['c','60–70 km/h','#F2A900','#FFC233'],['d','80 km/h or more','#D1462F','#FF6B4A'],['none','No limit tagged',...NA]]},
+ lit:{key:'lit',L:[['yes','Lit','#E8A400','#FFC233'],['no','Unlit','#33475B','#7F93A8'],['unk','Not tagged',...NA]]},
+ surface:{key:'sc',L:[['paved','Paved','#0072C6','#3AA0F0'],['unpaved','Unpaved','#B8631F','#E08A45'],['unknown','Not tagged',...NA]]},
+ grade:{key:'tg',L:[['g1','Grade 1 · solid, paved','#1B9E77','#2FC79A'],['g2','Grade 2 · gravel','#8DBB00','#B4DB2E'],['g3','Grade 3 · mixed','#F2A900','#FFC233'],['g4','Grade 4 · mostly soft','#E0702A','#FF8F4A'],['g5','Grade 5 · soft earth','#B3261E','#FF5A4F'],['none','Track, grade not tagged',...NA]]}};
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let DARK=false;try{const v=localStorage.getItem('slr-theme');DARK=v?v==='dark':matchMedia('(prefers-color-scheme:dark)').matches}catch{}
+document.documentElement.dataset.theme=DARK?'dark':'light';
+const cc=c=>DARK?c[7]:c[2],tl=l=>DARK?l[3]:l[2],STY=()=>`https://basemaps.cartocdn.com/gl/${DARK?'dark-matter':'positron'}-gl-style/style.json`;
+let S={cls:new Set(CLS.map(c=>c[0]).filter(k=>!OFF.includes(k))),local:false},TH=null,H=new Set(),DB=new Map(),cells=new Set(),busy=0,staticOK={},CURRENT=[],GEN=0,RAIL={type:'FeatureCollection',features:[]},RL=false,railDone=false,started=false,BYTES=0;const mb=()=>(BYTES/1048576).toFixed(1)+' MB';
+// ---------- data ----------
+const km=a=>{let d=0;for(let i=1;i<a.length;i++){const[x1,y1]=a[i-1],[x2,y2]=a[i],p=Math.PI/180,h=Math.sin((y2-y1)*p/2)**2+Math.cos(y1*p)*Math.cos(y2*p)*Math.sin((x2-x1)*p/2)**2;d+=12742*Math.asin(Math.sqrt(h))}return d};
+const spBin=s=>s==null?'none':s<=30?'a':s<=50?'b':s<=70?'c':'d';
+function feat(e){const t=e.tags||{};let c=t.highway;if(!c||!e.geometry)return;c=c.replace('_link','');c=HW[c]||c;if(!(c in CI))return;
+ const co=e.geometry.map(g=>[+g.lon.toFixed(5),+g.lat.toFixed(5)]);if(co.length<2)return;const ms=parseInt(t.maxspeed),su=t.surface,sp=isNaN(ms)?null:ms;
+ return{type:'Feature',geometry:{type:'LineString',coordinates:co},properties:{id:e.id,cls:c,hw:t.highway,tg:c==='track'?(/^grade[1-5]$/.test(t.tracktype)?'g'+t.tracktype.slice(5):'none'):'na',name:t.name||'',ref:t.ref||'',surface:su||'',sc:!su?'unknown':PAVED.has(su)?'paved':'unpaved',speed:sp,sp:spBin(sp),lit:t.lit?(t.lit==='no'?'no':'yes'):'unk',km:+km(co).toFixed(3)}}}
+function ingest(els){const out=[];for(const e of els){if(DB.has(e.id))continue;const f=feat(e);if(f){DB.set(e.id,f);out.push(f)}}return out}
+const hw=l=>`way["highway"~"^(${l.flatMap(x=>x==='path'?['path','footway','cycleway','pedestrian','steps','bridleway']:x==='residential'?['residential','living_street']:x==='unclassified'?['unclassified','road']:[x,x+'_link']).join('|')})$"]`;
+let ep=0,LASTERR='';async function ovp(q){let last;for(let i=0;i<6;i++){const u=OVP[(ep+i)%OVP.length];try{const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(80000):undefined});
+  if(r.ok){const tx=await r.text();BYTES+=tx.length;const j=JSON.parse(tx);if(j.remark&&/error|timed out/i.test(j.remark))throw Error('server: '+j.remark.slice(0,60));ep=(ep+i)%OVP.length;return j.elements}last='HTTP '+r.status}catch(e){last=e.message||String(e)}
+  LASTERR=last;await new Promise(r=>setTimeout(r,1500*(i+1)))}throw Error(last)}
+const AREA='area(id:3600192777)->.a;';
+const cellQ=(l,b)=>`[out:json][timeout:60];${AREA}${hw(l)}(${b.join(',')})(area.a);out geom tags;`,countryQ=l=>`[out:json][timeout:240];${AREA}${hw(l)}(area.a);out geom tags;`;
+function status(t,tick,pct){$('#st').textContent=t;if(tick!==undefined)$('#tick').innerHTML=tick||'&nbsp;';if(pct!==undefined){$('#prog').style.width=pct+'%';if(pct>=100)setTimeout(()=>$('#prog').style.width='0',700)}}
+let t0=0;function flash(fs){const f=fs.filter(x=>pass(x.properties));if(!f.length||!map.getSource('fresh'))return;map.getSource('fresh').setData({type:'FeatureCollection',features:f});t0=performance.now();requestAnimationFrame(fade)}
+function fade(n){const k=Math.min(1,(n-t0)/1500);map.setPaintProperty('fresh','line-opacity',(1-k)*.85);if(k<1)requestAnimationFrame(fade)}
+let META,FORCELIVE=false;
+async function meta(){if(META!==undefined)return META;try{const r=await fetch('data/meta.json',{cache:'no-cache'});META=r.ok?await r.json():null}catch{META=null}return META}
+async function loadStatic(t){if(FORCELIVE)return false;if(staticOK[t]!==undefined)return staticOK[t];const m=await meta();if(!m||!m.files||!(m.files[t]||[]).length)return staticOK[t]=false;
+ try{const js=await Promise.all(m.files[t].map(f=>fetch('data/'+f).then(r=>{if(!r.ok)throw 0;return r.text()}).then(tx=>{BYTES+=tx.length;return JSON.parse(tx)})));
+  for(const j of js)for(const f of j.features){const p=f.properties;p.sp=spBin(p.speed);p.tg=p.tg||(p.cls==='track'?'none':'na');DB.set(p.id,f)}return staticOK[t]=true}catch{return staticOK[t]=false}}
+const srcNote=()=>{$('#src').textContent=!FORCELIVE&&META&&staticOK[1]?`Source: saved snapshot of ${META.updated} (GitHub). Use “Reload live” for the latest OSM edits.`:'Source: live from OpenStreetMap.'};
+async function pool(jobs,n,fn){let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<jobs.length)await fn(jobs[i++])}))}
+function grid(s){const c=[];for(let x=BOUNDS[0][0];x<BOUNDS[1][0];x+=s)for(let y=BOUNDS[0][1];y<BOUNDS[1][1];y+=s)c.push([+y.toFixed(3),+x.toFixed(3),+(y+s).toFixed(3),+(x+s).toFixed(3)]);return c}
+async function loadMain(){const gen=++GEN,cl=[...TIERS[1],...TIERS[2]];busy++;status('Loading main roads from OpenStreetMap','Connecting…',2);
+ status('Loading main roads','Reading saved snapshot…',10);if(await loadStatic(1)&&await loadStatic(2)){busy--;status('Main roads loaded',`Snapshot ${META.updated} · ${DB.size.toLocaleString()} segments · ${mb()}`,100);flash([...DB.values()]);srcNote();render();return}
+ const g=grid(.75);let done=0,total=0,todo=g;
+ for(let round=0;round<3&&todo.length&&gen===GEN;round++){const bad=[];
+  await pool(todo,2,async b=>{if(gen!==GEN)return;try{const f=ingest(await ovp(cellQ(cl,b)));total+=f.length;flash(f);render();done++}catch(e){bad.push(b)}
+   status('Loading main roads from OpenStreetMap',`Tile ${done} of ${g.length} · ${mb()} · ${total.toLocaleString()} seg.${bad.length?' · retrying '+bad.length:''}`,done/g.length*100)});
+  todo=bad}
+ srcNote();busy--;status(todo.length?`Main roads loaded, ${todo.length} tile(s) missing`:'Main roads loaded',todo.length?`${LASTERR||'Service busy'} · press “Reload live”`:`${DB.size.toLocaleString()} segments · ${mb()}`,100);render()}
+async function loadView(){if(!S.local)return;if(map.getZoom()<9.5){status('Local roads on','Zoom in to level 10 to load them');return}if(await loadStatic(3)){srcNote();status('Local roads loaded',`Snapshot ${META.updated} · ${mb()}`,100);render();return}
+ const b=map.getBounds(),s=.4,need=[];for(let x=Math.floor(b.getWest()/s);x<=Math.floor(b.getEast()/s);x++)for(let y=Math.floor(b.getSouth()/s);y<=Math.floor(b.getNorth()/s);y++){const k=x+':'+y;if(!cells.has(k)&&x*s>=BOUNDS[0][0]-s&&x*s<BOUNDS[1][0]&&y*s>=BOUNDS[0][1]-s&&y*s<BOUNDS[1][1])need.push([x,y,k])}
+ const gen=GEN;await pool(need.slice(0,9),2,async([x,y,k])=>{cells.add(k);busy++;status('Loading local roads','Area '+k.replace(':','/'),30);try{const f=ingest(await ovp(cellQ(TIERS[3],[y*s,x*s,(y+1)*s,(x+1)*s])));if(gen!==GEN)return;flash(f);status('Loading local roads',`+${f.length.toLocaleString()} segments · ${mb()} total`,100)}catch{cells.delete(k);status('Service busy','Pan the map to retry',100)}busy--;render()})}
+// ---------- filtering ----------
+function pass(p,skip){if(skip!=='cls'&&!(S.cls.has(p.cls)&&(CI[p.cls]<MAIN||S.local)))return false;if(skip!=='cat'&&TH&&H.has(p[THEMES[TH].key]))return false;return true}
+let timer;const render=()=>{clearTimeout(timer);timer=setTimeout(draw,90)};
+const tw={};function count(id,v){const e=$(id),a=tw[id]||0,t=performance.now();tw[id]=v;(function s(n){const k=Math.min(1,(n-t)/450);e.textContent=Math.round(a+(v-a)*k).toLocaleString();if(k<1)requestAnimationFrame(s)})(t)}
+function draw(){const fs=[],pc={},pt={};let tot=0,unp=0;
+ for(const f of DB.values()){const p=f.properties;if(pass(p,'cls'))pc[p.cls]=(pc[p.cls]||0)+p.km;if(TH&&pass(p,'cat'))pt[p[THEMES[TH].key]]=(pt[p[THEMES[TH].key]]||0)+p.km;
+  if(pass(p)){fs.push(f);tot+=p.km;if(p.sc==='unpaved')unp+=p.km}}
+ map.getSource('roads')?.setData({type:'FeatureCollection',features:fs});CURRENT=fs;
+ count('#kN',fs.length);count('#kK',Math.round(tot));$('#kU').textContent=tot?Math.round(unp/tot*100):'–';
+ const set=(pre,obj)=>{const m=Math.max(1,...Object.values(obj));document.querySelectorAll(`[id^="${pre}v-"]`).forEach(e=>{const k=e.id.slice(pre.length+2),v=obj[k]||0;e.textContent=v?Math.round(v).toLocaleString()+' km':'–';$(`#${pre}b-${k}`).style.width=v/m*100+'%'})};
+ set('',pc);if(TH)set('c',pt);updLegend()}
+// ---------- ui ----------
+const row=(id,k,label,col,h,on,bs)=>`<label class="row${on?'':' off'}" style="--c:${col};--h:${h}px;--bs:${bs||'solid'}"><input type="checkbox" data-k="${k}"${on?' checked':''}><span class="sw"></span><span>${label}</span><span class="v" id="${id}v-${k}">–</span><span class="bar"><i id="${id}b-${k}"></i></span></label>`;
+function buildCls(){const r=c=>row('',c[0],c[1],cc(c),c[6],S.cls.has(c[0]),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid');
+ $('#cls').innerHTML=`<div class="grp"><b>Main roads · loaded</b></div>`+CLS.slice(0,MAIN).map(r).join('')+`<div class="grp"><b>Local roads</b><label><input type="checkbox" id="loc"${S.local?' checked':''}>Load</label></div>`+CLS.slice(MAIN).map(r).join('')+`<p class="note">Local roads load for the area on screen once you zoom in. Tracks and paths are hidden by default: tick them to show.</p>`;render()}
+$('#cls').onchange=e=>{const i=e.target;if(i.id==='loc'){S.local=i.checked;if(S.local&&map.getZoom()<9.5)map.easeTo({zoom:10});loadView();render();return}const k=i.dataset.k;i.checked?S.cls.add(k):S.cls.delete(k);i.closest('.row').classList.toggle('off',!i.checked);render()};
+function legendUI(){const L=$('#leg');if(!TH){L.innerHTML='';return}L.innerHTML=THEMES[TH].L.map(l=>row('c',l[0],l[1],tl(l),5,!H.has(l[0]))).join('');render()}
+$('#leg').onchange=e=>{const i=e.target,k=i.dataset.k;i.checked?H.delete(k):H.add(k);i.closest('.row').classList.toggle('off',!i.checked);render()};
+document.querySelectorAll('[data-th]').forEach(c=>c.onchange=()=>{document.querySelectorAll('[data-th]').forEach(o=>{if(o!==c)o.checked=false});TH=c.checked?c.dataset.th:null;H=new Set();
+ if(TH==='grade'){S.local=true;S.cls.add('track');if(map.getZoom()<9.5)map.easeTo({zoom:10});loadView()}buildCls();legendUI();recolor()});
+// ---------- map ----------
+const map=new maplibregl.Map({container:'map',style:STY(),bounds:BOUNDS,fitBoundsOptions:{padding:30},attributionControl:{compact:true}});
+map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
+map.addControl({onAdd(){const e=document.createElement('div');e.className='maplibregl-ctrl lg';e.id='lg';return e},onRemove(){}},'bottom-right');
+// compact "what is shown now" key (no title)
+function updLegend(){const e=$('#lg');if(!e)return;const li=(c,l,h,bs)=>`<div style="--c:${c};--h:${h}px;--bs:${bs||'solid'}"><i></i>${l}</div>`;let o='';
+ if(TH)o=THEMES[TH].L.filter(l=>!H.has(l[0])).map(l=>li(tl(l),l[1],3)).join('');
+ else o=CLS.filter(c=>S.cls.has(c[0])&&(CI[c[0]]<MAIN||S.local)).map(c=>li(cc(c),c[1],Math.min(c[6],4),c[0]==='path'?'dotted':c[0]==='track'?'dashed':'solid')).join('');
+ if(RL)o+=li(DARK?'#9AA6B2':'#59646F','Railway',2);e.innerHTML=o;e.style.display=o?'block':'none'}
+const W=(c,m)=>['interpolate',['linear'],['zoom'],5,c[5][0]*m,10,c[5][1]*m,16,c[5][2]*m];
+function colour(){const gr=NA[DARK?1:0];if(!TH)return['match',['get','cls'],...CLS.flatMap(c=>[c[0],cc(c)]),gr];return['match',['get',THEMES[TH].key],...THEMES[TH].L.flatMap(l=>[l[0],tl(l)]),gr]}
+function recolor(){CLS.forEach(c=>map.setPaintProperty('r-'+c[0],'line-color',colour()));map.setLayoutProperty('speed-lbl','visibility',TH==='speed'?'visible':'none');render()}
+// lock the map to the initial window: no panning away, no zooming out beyond it
+function lock(){map.setMaxBounds(null);map.setMinZoom(0);map.fitBounds(BOUNDS,{padding:30,animate:false});map.setMinZoom(map.getZoom());map.setMaxBounds(map.getBounds())}
+let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(lock,250)});
+function setup(){
+ const font=(map.getStyle().layers.find(l=>l.type==='symbol'&&l.layout&&l.layout['text-font'])||{layout:{}}).layout['text-font']||['Noto Sans Regular'];
+ map.getStyle().layers.forEach(l=>{if(/road|bridge|tunnel|highway|aeroway|rail/.test(l.id)&&l.type!=='symbol')map.setLayoutProperty(l.id,'visibility','none')});
+ map.addSource('rail',{type:'geojson',data:RAIL});
+ const rv={visibility:RL?'visible':'none'};
+ map.addLayer({id:'rail-a',type:'line',source:'rail',layout:rv,paint:{'line-color':DARK?'#9AA6B2':'#59646F','line-width':['interpolate',['linear'],['zoom'],5,.8,10,1.6,16,3.2]}});
+ map.addLayer({id:'rail-b',type:'line',source:'rail',layout:rv,paint:{'line-color':DARK?'#0F161E':'#fff','line-width':['interpolate',['linear'],['zoom'],5,.5,10,.9,16,1.8],'line-dasharray':[3,3]}});
+ map.addSource('roads',{type:'geojson',data:{type:'FeatureCollection',features:CURRENT},tolerance:.5});map.addSource('fresh',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
+ [...CLS].reverse().forEach(c=>{const p={'line-color':cc(c),'line-width':W(c,1)};if(c[8])p['line-dasharray']=c[8];
+  map.addLayer({id:'r-'+c[0],type:'line',source:'roads',filter:['==',['get','cls'],c[0]],minzoom:c[3],layout:{'line-cap':c[0]==='path'?'round':'butt','line-join':'round'},paint:p})});
+ map.addLayer({id:'fresh',type:'line',source:'fresh',paint:{'line-color':DARK?'#FFFFFF':'#0E1B2A','line-width':['interpolate',['linear'],['zoom'],5,2,12,5,16,10],'line-opacity':0}});
+ map.addLayer({id:'speed-lbl',type:'symbol',source:'roads',minzoom:11.5,filter:['>',['coalesce',['get','speed'],0],0],layout:{visibility:'none','symbol-placement':'line','text-field':['to-string',['get','speed']],'text-font':font,'text-size':11,'symbol-spacing':260,'text-keep-upright':true},paint:{'text-color':DARK?'#E8EDF2':'#0E1B2A','text-halo-color':DARK?'#0F161E':'#fff','text-halo-width':2}});
+ recolor()}
+map.on('style.load',()=>{setup();if(!started){started=true;lock();loadMain()}});
+const GR={g1:'Grade 1',g2:'Grade 2',g3:'Grade 3',g4:'Grade 4',g5:'Grade 5',none:'not tagged'};
+CLS.forEach(c=>{map.on('mouseenter','r-'+c[0],()=>map.getCanvas().style.cursor='pointer');map.on('mouseleave','r-'+c[0],()=>map.getCanvas().style.cursor='');
+ map.on('click','r-'+c[0],e=>{const p=e.features[0].properties,r=(a,b)=>b?`<tr><td>${a}</td><td>${esc(b)}</td></tr>`:'',n=v=>v!=null&&v!=='null'&&v!=='';
+  new maplibregl.Popup({maxWidth:'280px'}).setLngLat(e.lngLat).setHTML(`<div class="pop"><div class="pt">${esc(p.name||p.ref||'Unnamed road')}</div><table>${r('Class',c[1])}${p.hw&&p.hw.replace('_link','')!==c[0]?r('OSM type',p.hw):''}${r('Ref',p.ref)}${p.tg&&p.tg!=='na'?r('Track grade',GR[p.tg]):''}${r('Surface',p.surface)}${r('Speed limit',n(p.speed)?p.speed+' km/h':'not tagged')}${r('Lighting',{yes:'lit',no:'unlit',unk:'not tagged'}[p.lit])}${r('Length',p.km+' km')}</table><a href="https://www.openstreetmap.org/way/${p.id}" target="_blank" rel="noopener">Edit on OpenStreetMap</a></div>`).addTo(map)})});
+map.on('moveend',loadView);
+$('#replay').onclick=()=>{FORCELIVE=true;BYTES=0;GEN++;DB=new Map();cells=new Set();staticOK={};map.getSource('roads').setData({type:'FeatureCollection',features:[]});$('#dlMsg').textContent='';srcNote();loadMain().then(loadView)};
+$('#tm').onclick=()=>{DARK=!DARK;document.documentElement.dataset.theme=DARK?'dark':'light';$('#tm').textContent=DARK?'Light mode':'Dark mode';try{localStorage.setItem('slr-theme',DARK?'dark':'light')}catch{}buildCls();legendUI();map.setStyle(STY(),{diff:false})};
+$('#tm').textContent=DARK?'Light mode':'Dark mode';buildCls();
+// railway overlay: rails only, no tags
+$('#rl').onchange=async e=>{RL=e.target.checked;updLegend();['rail-a','rail-b'].forEach(i=>map.setLayoutProperty(i,'visibility',RL?'visible':'none'));
+ if(RL&&!railDone){railDone=true;busy++;status('Loading railway','From OpenStreetMap',30);
+  try{const els=await ovp(`[out:json][timeout:90];${AREA}way["railway"="rail"](area.a);out geom;`);RAIL={type:'FeatureCollection',features:els.filter(x=>x.geometry).map(x=>({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:x.geometry.map(g=>[g.lon,g.lat])}}))};map.getSource('rail').setData(RAIL);status('Railway loaded',RAIL.features.length+' segments',100)}
+  catch{railDone=false;status('Service busy','Tick again to retry',100)}busy--}};
+// ---------- download ----------
+function save(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4e3)}
+const stamp=()=>new Date().toISOString().slice(0,10),toGJ=fs=>JSON.stringify({type:'FeatureCollection',name:'sierra_leone_roads',features:fs});
+const toCSV=fs=>{const k=['id','cls','hw','name','ref','surface','tg','speed','lit','km'],q=v=>`"${String(v??'').replace(/"/g,'""')}"`;return[k.concat('wkt').join(',')].concat(fs.map(f=>k.map(c=>q(f.properties[c])).join(',')+','+q('LINESTRING('+f.geometry.coordinates.map(c=>c.join(' ')).join(',')+')'))).join('\n')};
+$('#dlG').onclick=()=>CURRENT.length?save(`sierra-leone-roads-${stamp()}.geojson`,toGJ(CURRENT),'application/geo+json'):0;
+$('#dlC').onclick=()=>CURRENT.length?save(`sierra-leone-roads-${stamp()}.csv`,toCSV(CURRENT),'text/csv'):0;
+$('#dlAll').onclick=async()=>{const m=$('#dlMsg'),out=new Map();busy++;
+ try{for(const t of[1,2,3]){const l=TIERS[t].filter(c=>S.cls.has(c)&&(t<3||S.local));if(!l.length)continue;m.textContent=`Fetching ${l.join(', ')} from OpenStreetMap…`;status('Preparing download',l.join(', '),t*30);
+   if(await loadStatic(t)){for(const f of DB.values())if(l.includes(f.properties.cls))out.set(f.properties.id,f)}else for(const e of await ovp(countryQ(l))){const f=feat(e);if(f)out.set(e.id,f)}}
+  const fs=[...out.values()].filter(f=>pass(f.properties));save(`sierra-leone-roads-country-${stamp()}.geojson`,toGJ(fs),'application/geo+json');m.textContent=`Saved ${fs.length.toLocaleString()} segments.`;status('Download ready','',100)}
+ catch(e){m.textContent='Download failed: the data service is busy. Try again in a minute.'}busy--};
+</script></body></html>
